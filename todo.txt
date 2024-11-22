@@ -1,4 +1,0 @@
-Napisać dodatek do RPG @praca
-Wykłucić się o podwyżkę @praca
-x 08/11/24, 11:35 - Dodać zadanie testowe do ukończenia @praca
-x 18/11/24, 11:55 - sprawdzić czy zmiana miejsca wywołania metody self.file.load() wpłynęła na możliwość modyfikacji pliku
