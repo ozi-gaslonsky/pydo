@@ -1,38 +1,38 @@
 # PYDO.py
 
-**PYDO.py** umożliwi Ci kontrolę listy zadań bezpośrednio z wiersza poleceń.
-Projekt inspirowany todo.txt, napisany w całości w Python.
+**PYDO.py** will allow you to control your task list directly from the command line.
+A project inspired by todo.txt. Written in Python.
 
-# FUNKCJE
+# FEATURES
 
-- Lista zadań przechowywana jest w formacie *.txt.
-- Filtrowanie zadań zakończonych.
-- Ustanawianie priorytetów przy zadaniu.
-- Wyszukiwanie po słowach.
-- Alfabetyczne sortowanie listy, bez jej modyfikacji w pliku.
+- The list of tasks is stored in *.txt format.
+- Filtering of completed tasks.
+- Setting priorities at the task.
+- Searching by words.
+- Alphabetical sorting of the list, without modifying it in the source file.
 
-# INSTALACJA
+# INSTALLATION
 
-- **PYDO.py** wymaga zainstalowanego Python.
-- Sklonuj program ze źródła.
-- Todo.txt będzie przechowywany w tym samym folderze co **PYDO.py**
+- **PYDO.py** requires Python to be installed.
+- ```git clone https://github.com/ozi-gaslonsky/pydo.git```
+- Your *todo.txt* task list will be stored in the same folder as **poydo.py**.
 
-# INSTRUKCJA
+# INSTRUCTION
 
-## UŹYCIE
+## USAGE
 
 ```python pydo.py [ARGUMENT]```
 
-## LISTA ARGUMENTÓW
+## ARGUMENT LIST
 
-- ```add```
-- ```do```
-- ```ls```
-  - ```ls [WORD]```
-- ```pri [TASK NO.] [PRIORITY LETTER]```
-- ```rm [TASK NO.]```
-- ```rm -A```
+- ```add [TASK]```: Adds the task to the task list.
+- ```do```: Marks the task with the indicated number as completed.
+- ```ls```: Displays a list of all tasks in *todo.txt*, excluding those marked as completed.
+  - ```ls [WORD]```: Optional, filters unfinished tasks for the indicated word.
+- ```pri [TASK NO.] [PRIORITY LETTER]```: Sets a letter priority to the specified task number that has not been marked as completed.
+- ```rm [TASK NO.]```: Removes the task with the specified number from the *todo.txt* file.
+- ```rm -A```: Removes all tasks from *todo.txt*.
 
-# LICENCJA
+# LICENSE
 
-**PYDO.py** udostępniony jest na licencji MIT.
+**PYDO.py** is released under the MIT license.
