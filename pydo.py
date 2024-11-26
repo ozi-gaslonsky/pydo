@@ -18,6 +18,10 @@ class File:
                 return self.tasks
         except FileNotFoundError:
             print(f"""TODO: {self.path} doesn't exist.""")
+            with open(self.path, 'w') as f:
+                pass
+            print(f"""{self.path} has been created.""")
+
 
     def save(self) -> str:
         with open(self.path, 'w') as f:
@@ -105,11 +109,6 @@ class Checks:
             return False
 
     @staticmethod
-    def path_wrong():
-        # ścieżka do pliku jest zła
-        pass
-
-    @staticmethod
     def is_task_marked(task=''):
         marked_task_pattern = re.compile(r'(x \d{2}\/\d{2}\/\d{2},'
                                          r' \d{2}:\d{2} -)')
@@ -127,18 +126,24 @@ class Checks:
         return count
 
     @staticmethod
-    def has_priority(self, tasks: list, task_id):
+    def has_priority(tasks: list, task_id):
         priority_pattern = re.compile(r'^\([A-Z]\)')
         if re.findall(priority_pattern, tasks[task_id - 1]):
             return True
         else:
             return False
 
+    @staticmethod
+    def if_list_empty(tasks_list: list):
+        if list:
+            print("TODO: Your todo.txt is empty.")
+            return True
+        else:
+            return False
 
 class Operations:
     def __init__(self):
         self.file = File()
-        # self.file.load_config()
         self.task = Task(self.file)
         self.check = Checks()
         self.file.load()
@@ -148,9 +153,15 @@ class Operations:
         self.file.save()
 
     def ls(self, filter):
+        if self.check.if_list_empty(self.file.tasks):
+            return
+
         self.file.list(filter)
 
     def do(self, task_id):
+        if self.check.if_list_empty(self.file.tasks):
+            return
+
         if self.check.id_wrong(task_id, self.file.tasks):
             return
 
@@ -158,6 +169,9 @@ class Operations:
         self.file.save()
 
     def pri(self, task_id, priority):
+        if self.check.if_list_empty(self.file.tasks):
+            return
+
         if self.check.id_wrong(task_id, self.file.tasks):
             return
 
@@ -171,6 +185,9 @@ class Operations:
         print(f"TODO: Changed priority on Task '{task_id}.'")
 
     def depri(self, task_id):
+        if self.check.if_list_empty(self.file.tasks):
+            return
+
         if self.check.id_wrong(task_id, self.file.tasks):
             return
 
@@ -182,6 +199,9 @@ class Operations:
             print(f"Task '{task_id}' has no priority.")
 
     def rm(self, task_id):
+        if self.check.if_list_empty(self.file.tasks):
+            return
+
         if self.check.id_wrong(task_id, self.file.tasks):
             return
 
@@ -190,12 +210,12 @@ class Operations:
         print(f"TODO: Task '{task_id}' removed.")
 
     def format_file(self):
+        if self.check.if_list_empty(self.file.tasks):
+            return
+
         self.file.format_file()
         self.file.save()
         print("TODO: File cleared.")
-
-    def filter_tasks(self, filter):
-        pass
 
 
 def main():
@@ -244,5 +264,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-# TODO: Stworzyć plik konfiguracyjny. Zapisać do niego domyślną ścieżkę.
-# Rozbudować program o możliwość zmiany ścieżki przez edycję pliku konfiguracyjnego.
