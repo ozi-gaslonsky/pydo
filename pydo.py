@@ -42,9 +42,12 @@ class File:
                 if not self.check.is_task_marked(task) and filter in task:
                     tasks_filtered.append(task)
 
-        for task in tasks_sorted:
-            if task in tasks_filtered:
-                print(f"{tasks_filtered.index(task) + 1}. {task}")
+        if tasks_filtered:
+            for task in tasks_sorted:
+                if task in tasks_filtered:
+                    print(f"{tasks_filtered.index(task) + 1}. {task}")
+        else:
+            print("TODO: You have 0 uncompleted tasks.")
 
     def format_file(self) -> list:
         # todo.txt file format.
@@ -59,15 +62,8 @@ class Task:
         self.check = Checks()
 
     def add(self, task=''):
-        if task:
-            # insert new task as last task that is not marked as done.
-            self.file.tasks.insert(self.check.active_task_count(self.file.tasks
-                                                                ), task)
-            print(f"TODO: '{task}' added on line "
-                  f"{self.check.active_task_count(self.file.tasks)}."
-                  )
-        else:
-            print("TODO: No task given.")
+        self.file.tasks.insert(self.check.active_task_count(self.file.tasks
+                                                            ), task)
 
     def remove_task(self, task_id):
         del self.file.tasks[task_id - 1]
@@ -135,11 +131,12 @@ class Checks:
 
     @staticmethod
     def if_list_empty(tasks_list: list):
-        if list:
+        if not tasks_list:
             print("TODO: Your todo.txt is empty.")
             return True
         else:
             return False
+
 
 class Operations:
     def __init__(self):
@@ -149,8 +146,14 @@ class Operations:
         self.file.load()
 
     def add(self, task):
-        self.task.add(task)
-        self.file.save()
+        if task:
+            self.task.add(task)
+            self.file.save()
+            print(f"TODO: '{task}' added on line "
+                  f"{self.check.active_task_count(self.file.tasks)}."
+                  )
+        else:
+            print("TODO: No task given.")
 
     def ls(self, filter):
         if self.check.if_list_empty(self.file.tasks):
