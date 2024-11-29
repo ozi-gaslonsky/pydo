@@ -53,6 +53,15 @@ class File:
         # todo.txt file format.
         self.tasks: list = []
 
+    def summary(self):
+        how_many_tasks = 0
+
+        for task in self.tasks:
+            if not self.check.is_task_marked(task):
+                how_many_tasks += 1
+
+        print(f"---\nTODO: {how_many_tasks} in {self.path}")
+
 
 class Task:
     '''Operations on task'''
@@ -152,6 +161,7 @@ class Operations:
             print(f"TODO: '{task}' added on line "
                   f"{self.check.active_task_count(self.file.tasks)}."
                   )
+            self.file.summary()
         else:
             print("TODO: No task given.")
 
@@ -160,6 +170,7 @@ class Operations:
             return
 
         self.file.list(filter)
+        self.file.summary()
 
     def do(self, task_id):
         if self.check.if_list_empty(self.file.tasks):
@@ -170,6 +181,7 @@ class Operations:
 
         self.task.mark_done(task_id)
         self.file.save()
+        self.file.summary()
 
     def pri(self, task_id, priority):
         if self.check.if_list_empty(self.file.tasks):
@@ -186,6 +198,7 @@ class Operations:
 
         self.file.save()
         print(f"TODO: Changed priority on Task '{task_id}.'")
+        self.file.summary()
 
     def depri(self, task_id):
         if self.check.if_list_empty(self.file.tasks):
@@ -211,6 +224,7 @@ class Operations:
         self.task.remove_task(task_id)
         self.file.save()
         print(f"TODO: Task '{task_id}' removed.")
+        self.file.summary()
 
     def format_file(self):
         if self.check.if_list_empty(self.file.tasks):
@@ -238,8 +252,6 @@ def main():
     parser_rm = subparser.add_parser('rm', help='Remove the Task.')
     parser_rm_number = parser_rm.add_argument('rm_number', nargs='?', type=int, help='Number of Task to remove.')
     parser_rm_all = parser_rm.add_argument('-A', '--all',action='store_true', help='Clear entire file.')
-    parser_path = subparser.add_parser('path', help="Change the 'todo.txt' file path.")
-    parser_path_str = parser_path.add_argument('path', nargs='?', type=str, help="path to 'todo.txt' file.")
     args = parser.parse_args()
 
     o = Operations()
@@ -260,8 +272,6 @@ def main():
             o.format_file()
         else:
             o.rm(args.rm_number)
-    elif args.command == "path":
-        o.file_dir(args.path)
 
 
 if __name__ == "__main__":
